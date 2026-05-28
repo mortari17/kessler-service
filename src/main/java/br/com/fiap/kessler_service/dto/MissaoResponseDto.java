@@ -16,5 +16,5 @@ public class MissaoResponseDto {
     private String paisOrigem;
     private Integer anoLancamento;
     private String statusMissao;
-    private TecnologiaResponseDto tecnologia;
+    private Long idTecnologia;
 }

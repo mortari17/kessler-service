@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/creditos-orbitais")
+@RequestMapping("/api/v2/creditos-orbitais")
 @RequiredArgsConstructor
 public class CreditoOrbitalController {
 

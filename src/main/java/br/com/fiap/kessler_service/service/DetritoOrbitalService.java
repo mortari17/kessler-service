@@ -45,11 +45,25 @@ public class DetritoOrbitalService {
 
     @Transactional
     public DetritoOrbitalResponseDto create(DetritoOrbitalRequestDto requestDto) {
-        DetritoOrbital detrito = modelMapper.map(requestDto, DetritoOrbital.class);
+
         Missao missao = missaoRepository.findById(requestDto.getIdMissao())
-                .orElseThrow(() -> new ResourceNotFoundException(String.format(MISSAO_NOT_FOUND_MSG, requestDto.getIdMissao())));
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        String.format(MISSAO_NOT_FOUND_MSG, requestDto.getIdMissao())));
+
+        DetritoOrbital detrito = new DetritoOrbital();
+
+        detrito.setTipoDetrito(requestDto.getTipoDetrito());
+        detrito.setMassaKg(requestDto.getMassaKg());
+        detrito.setAltitudeAtualKm(requestDto.getAltitudeAtualKm());
+        detrito.setInclinacaoOrbitalGraus(requestDto.getInclinacaoOrbitalGraus());
+        detrito.setRiscoConjuncao(requestDto.getRiscoConjuncao());
+        detrito.setCustoRemocaoEstimadoBrl(requestDto.getCustoRemocaoEstimadoBrl());
+        detrito.setStatusRemocao(requestDto.getStatusRemocao());
+
         detrito.setMissaoOrigem(missao);
+
         DetritoOrbital saved = detritoOrbitalRepository.save(detrito);
+
         return modelMapper.map(saved, DetritoOrbitalResponseDto.class);
     }
 

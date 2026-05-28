@@ -18,5 +18,5 @@ public class DetritoOrbitalResponseDto {
     private String riscoConjuncao;
     private Double custoRemocaoEstimadoBrl;
     private String statusRemocao;
-    private MissaoResponseDto missaoOrigem;
+    private Long idMissao;
 }

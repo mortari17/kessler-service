@@ -30,14 +30,24 @@ public class CreditoOrbitalService {
     private static final String CREDITO_NOT_FOUND_MSG = "Crédito orbital não encontrado com id: %d";
     private static final String DETRITO_NOT_FOUND_MSG = "Detrito orbital não encontrado com id: %d";
 
+    @Transactional
     public CreditoOrbitalResponseDto create(CreditoOrbitalRequestDto requestDto) {
-        DetritoOrbital detrito = detritoOrbitalRepository.findById(requestDto.getIdDetrito())
-                .orElseThrow(() -> new ResourceNotFoundException(String.format(DETRITO_NOT_FOUND_MSG, requestDto.getIdDetrito())));
 
-        CreditoOrbital credito = modelMapper.map(requestDto, CreditoOrbital.class);
+        DetritoOrbital detrito = detritoOrbitalRepository.findById(requestDto.getIdDetrito())
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        String.format(DETRITO_NOT_FOUND_MSG, requestDto.getIdDetrito())));
+
+        CreditoOrbital credito = new CreditoOrbital();
+
+        credito.setValorBrl(requestDto.getValorBrl());
+        credito.setTipoComprador(requestDto.getTipoComprador());
+        credito.setDataTransacao(requestDto.getDataTransacao());
+        credito.setStatusCredito(requestDto.getStatusCredito());
+
         credito.setDetrito(detrito);
 
         CreditoOrbital savedCredito = creditoOrbitalRepository.save(credito);
+
         return modelMapper.map(savedCredito, CreditoOrbitalResponseDto.class);
     }
 

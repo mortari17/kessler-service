@@ -36,14 +36,20 @@ public class MissaoService {
 
     @Transactional
     public MissaoResponseDto create(MissaoRequestDto requestDto) {
-        Tecnologia tecnologia = tecnologiaRepository.findById(requestDto.getIdTecnologia())
-                .orElseThrow(() -> new ResourceNotFoundException(
-                        String.format(TECNOLOGIA_NOT_FOUND_MSG, requestDto.getIdTecnologia())));
 
-        Missao missao = modelMapper.map(requestDto, Missao.class);
-        missao.setTecnologia(tecnologia);
-        missao = missaoRepository.save(missao);
-        return modelMapper.map(missao, MissaoResponseDto.class);
+        Tecnologia tecnologia = tecnologiaRepository
+                .findById(requestDto.getIdTecnologia())
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        String.format(
+                                TECNOLOGIA_NOT_FOUND_MSG,
+                                requestDto.getIdTecnologia()
+                        )));
+
+        Missao missao = Missao.fromDto(requestDto, tecnologia);
+
+        Missao saved = missaoRepository.save(missao);
+
+        return modelMapper.map(saved, MissaoResponseDto.class);
     }
 
     public MissaoResponseDto findById(Long id) {

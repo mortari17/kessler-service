@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/detritos-orbitais")
+@RequestMapping("/api/v2/detritos-orbitais")
 @RequiredArgsConstructor
 public class DetritoOrbitalController {
 

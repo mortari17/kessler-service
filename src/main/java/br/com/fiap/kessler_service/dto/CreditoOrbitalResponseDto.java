@@ -16,5 +16,5 @@ public class CreditoOrbitalResponseDto {
     private String tipoComprador;
     private LocalDateTime dataTransacao;
     private String statusCredito;
-    private DetritoOrbitalResponseDto detrito;
+    private Long idDetrito;
 }
