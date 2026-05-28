@@ -10,6 +10,7 @@ import br.com.fiap.kessler_service.repository.DetritoOrbitalRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,9 +27,12 @@ public class CreditoOrbitalService {
     @Autowired
     private ModelMapper modelMapper;
 
+    private static final String CREDITO_NOT_FOUND_MSG = "Crédito orbital não encontrado com id: %d";
+    private static final String DETRITO_NOT_FOUND_MSG = "Detrito orbital não encontrado com id: %d";
+
     public CreditoOrbitalResponseDto create(CreditoOrbitalRequestDto requestDto) {
         DetritoOrbital detrito = detritoOrbitalRepository.findById(requestDto.getIdDetrito())
-                .orElseThrow(() -> new ResourceNotFoundException("DetritoOrbital not found with id: " + requestDto.getIdDetrito()));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(DETRITO_NOT_FOUND_MSG, requestDto.getIdDetrito())));
 
         CreditoOrbital credito = modelMapper.map(requestDto, CreditoOrbital.class);
         credito.setDetrito(detrito);
@@ -39,7 +43,7 @@ public class CreditoOrbitalService {
 
     public CreditoOrbitalResponseDto findById(Long id) {
         CreditoOrbital credito = creditoOrbitalRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("CreditoOrbital not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(CREDITO_NOT_FOUND_MSG, id)));
         return modelMapper.map(credito, CreditoOrbitalResponseDto.class);
     }
 
@@ -50,23 +54,31 @@ public class CreditoOrbitalService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     public CreditoOrbitalResponseDto update(Long id, CreditoOrbitalRequestDto requestDto) {
-        CreditoOrbital existingCredito = creditoOrbitalRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("CreditoOrbital not found with id: " + id));
+
+        CreditoOrbital credito = creditoOrbitalRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        String.format(CREDITO_NOT_FOUND_MSG, id)));
 
         DetritoOrbital detrito = detritoOrbitalRepository.findById(requestDto.getIdDetrito())
-                .orElseThrow(() -> new ResourceNotFoundException("DetritoOrbital not found with id: " + requestDto.getIdDetrito()));
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        String.format(DETRITO_NOT_FOUND_MSG, requestDto.getIdDetrito())));
 
-        modelMapper.map(requestDto, existingCredito);
-        existingCredito.setDetrito(detrito);
+        credito.setValorBrl(requestDto.getValorBrl());
+        credito.setTipoComprador(requestDto.getTipoComprador());
+        credito.setDataTransacao(requestDto.getDataTransacao());
+        credito.setStatusCredito(requestDto.getStatusCredito());
+        credito.setDetrito(detrito);
 
-        CreditoOrbital updatedCredito = creditoOrbitalRepository.save(existingCredito);
-        return modelMapper.map(updatedCredito, CreditoOrbitalResponseDto.class);
+        CreditoOrbital updated = creditoOrbitalRepository.save(credito);
+
+        return modelMapper.map(updated, CreditoOrbitalResponseDto.class);
     }
 
     public void delete(Long id) {
         CreditoOrbital credito = creditoOrbitalRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("CreditoOrbital not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(CREDITO_NOT_FOUND_MSG, id)));
         creditoOrbitalRepository.delete(credito);
     }
 }
