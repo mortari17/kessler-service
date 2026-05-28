@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
@@ -21,7 +20,7 @@ public class CreditoOrbital {
     private Long idCredito;
 
     @Column(nullable = false)
-    private BigDecimal valorBrl;
+    private Double valorBrl;
 
     @Column(name = "tipo_comprador")
     private String tipoComprador;

@@ -21,6 +21,9 @@ public class DetritoOrbitalService {
     @Autowired
     private DetritoOrbitalRepository detritoOrbitalRepository;
 
+    private static final String DETRITO_NOT_FOUND_MSG = "Detrito orbital não encontrado com id: %d";
+    private static final String MISSAO_NOT_FOUND_MSG = "Missao não encontrada com id: %d";
+
     @Autowired
     private MissaoRepository missaoRepository;
 
@@ -36,7 +39,7 @@ public class DetritoOrbitalService {
 
     public DetritoOrbitalResponseDto findById(Long id) {
         DetritoOrbital detrito = detritoOrbitalRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("DetritoOrbital not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(DETRITO_NOT_FOUND_MSG, id)));
         return modelMapper.map(detrito, DetritoOrbitalResponseDto.class);
     }
 
@@ -44,7 +47,7 @@ public class DetritoOrbitalService {
     public DetritoOrbitalResponseDto create(DetritoOrbitalRequestDto requestDto) {
         DetritoOrbital detrito = modelMapper.map(requestDto, DetritoOrbital.class);
         Missao missao = missaoRepository.findById(requestDto.getIdMissao())
-                .orElseThrow(() -> new ResourceNotFoundException("Missao not found with id: " + requestDto.getIdMissao()));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(MISSAO_NOT_FOUND_MSG, requestDto.getIdMissao())));
         detrito.setMissaoOrigem(missao);
         DetritoOrbital saved = detritoOrbitalRepository.save(detrito);
         return modelMapper.map(saved, DetritoOrbitalResponseDto.class);
@@ -53,11 +56,22 @@ public class DetritoOrbitalService {
     @Transactional
     public DetritoOrbitalResponseDto update(Long id, DetritoOrbitalRequestDto requestDto) {
         DetritoOrbital detrito = detritoOrbitalRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("DetritoOrbital not found with id: " + id));
-        modelMapper.map(requestDto, detrito);
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        String.format(DETRITO_NOT_FOUND_MSG, id)));
+
         Missao missao = missaoRepository.findById(requestDto.getIdMissao())
-                .orElseThrow(() -> new ResourceNotFoundException("Missao not found with id: " + requestDto.getIdMissao()));
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        String.format(MISSAO_NOT_FOUND_MSG, requestDto.getIdMissao())));
+
+        detrito.setTipoDetrito(requestDto.getTipoDetrito());
+        detrito.setMassaKg(requestDto.getMassaKg());
+        detrito.setAltitudeAtualKm(requestDto.getAltitudeAtualKm());
+        detrito.setInclinacaoOrbitalGraus(requestDto.getInclinacaoOrbitalGraus());
+        detrito.setRiscoConjuncao(requestDto.getRiscoConjuncao());
+        detrito.setCustoRemocaoEstimadoBrl(requestDto.getCustoRemocaoEstimadoBrl());
+        detrito.setStatusRemocao(requestDto.getStatusRemocao());
         detrito.setMissaoOrigem(missao);
+
         DetritoOrbital updated = detritoOrbitalRepository.save(detrito);
         return modelMapper.map(updated, DetritoOrbitalResponseDto.class);
     }
@@ -65,7 +79,7 @@ public class DetritoOrbitalService {
     @Transactional
     public void delete(Long id) {
         DetritoOrbital detrito = detritoOrbitalRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("DetritoOrbital not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(DETRITO_NOT_FOUND_MSG, id)));
         detritoOrbitalRepository.delete(detrito);
     }
 }

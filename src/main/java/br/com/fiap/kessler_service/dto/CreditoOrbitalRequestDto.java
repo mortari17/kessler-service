@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Getter
@@ -16,7 +15,7 @@ import java.time.LocalDateTime;
 public class CreditoOrbitalRequestDto {
 
     @NotNull(message = "valorBrl é obrigatório")
-    private BigDecimal valorBrl;
+    private Double valorBrl;
 
     private String tipoComprador;
 

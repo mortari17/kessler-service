@@ -6,8 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.math.BigDecimal;
-
 @Entity
 @Table(name = "detritos_orbitais")
 @Getter
@@ -33,10 +31,10 @@ public class DetritoOrbital {
     private Double inclinacaoOrbitalGraus;
 
     @Column(name = "risco_conjuncao")
-    private String riscoConjuncao;
+    private Double riscoConjuncao;
 
-    @Column(name = "custo_remocao_estimado_brl", nullable = false, precision = 15, scale = 2)
-    private BigDecimal custoRemocaoEstimadoBrl;
+    @Column(name = "custo_remocao_estimado_brl", nullable = false)
+    private Double custoRemocaoEstimadoBrl;
 
     @Column(name = "status_remocao")
     private String statusRemocao;
