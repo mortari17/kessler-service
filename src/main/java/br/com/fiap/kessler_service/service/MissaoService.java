@@ -23,10 +23,13 @@ public class MissaoService {
     private final TecnologiaRepository tecnologiaRepository;
     private final ModelMapper modelMapper;
 
+    private static final String TECNOLOGIA_NOT_FOUND_MSG = "Tecnologia não encontrada com id: %d";
+    private static final String MISSAO_NOT_FOUND_MSG = "Missao not found with id: %d";
+
     @Transactional
     public MissaoResponseDto create(MissaoRequestDto requestDto) {
         Tecnologia tecnologia = tecnologiaRepository.findById(requestDto.getIdTecnologia())
-                .orElseThrow(() -> new ResourceNotFoundException("Tecnologia not found with id: " + requestDto.getIdTecnologia()));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(TECNOLOGIA_NOT_FOUND_MSG, requestDto.getIdTecnologia())));
         Missao missao = modelMapper.map(requestDto, Missao.class);
         missao.setTecnologia(tecnologia);
         missao = missaoRepository.save(missao);
@@ -35,7 +38,7 @@ public class MissaoService {
 
     public MissaoResponseDto findById(Long id) {
         Missao missao = missaoRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Missao not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(MISSAO_NOT_FOUND_MSG, id)));
         return modelMapper.map(missao, MissaoResponseDto.class);
     }
 
@@ -48,11 +51,20 @@ public class MissaoService {
     @Transactional
     public MissaoResponseDto update(Long id, MissaoRequestDto requestDto) {
         Missao missao = missaoRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Missao not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        String.format(MISSAO_NOT_FOUND_MSG, id)));
+
         Tecnologia tecnologia = tecnologiaRepository.findById(requestDto.getIdTecnologia())
-                .orElseThrow(() -> new ResourceNotFoundException("Tecnologia not found with id: " + requestDto.getIdTecnologia()));
-        modelMapper.map(requestDto, missao);
-        missao.setTecnologia(tecnologia);
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        String.format(TECNOLOGIA_NOT_FOUND_MSG, requestDto.getIdTecnologia())));
+
+        missao.setNomeMissao(requestDto.getNomeMissao());
+        missao.setAgenciaResponsavel(requestDto.getAgenciaResponsavel());
+        missao.setPaisOrigem(requestDto.getPaisOrigem());
+        missao.setAnoLancamento(requestDto.getAnoLancamento());
+        missao.setStatusMissao(requestDto.getStatusMissao());
+        missao.setTecnologia(tecnologia); // entidade gerenciada correta
+
         missao = missaoRepository.save(missao);
         return modelMapper.map(missao, MissaoResponseDto.class);
     }
@@ -60,7 +72,7 @@ public class MissaoService {
     @Transactional
     public void delete(Long id) {
         if (!missaoRepository.existsById(id)) {
-            throw new ResourceNotFoundException("Missao not found with id: " + id);
+            throw new ResourceNotFoundException(String.format(MISSAO_NOT_FOUND_MSG, id));
         }
         missaoRepository.deleteById(id);
     }
