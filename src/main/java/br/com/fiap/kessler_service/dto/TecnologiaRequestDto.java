@@ -13,7 +13,14 @@ import lombok.Setter;
 public class TecnologiaRequestDto {
 
     @NotBlank(message = "Nome é obrigatório")
-    private String nome;
+    private String nomeTecnologia;
+
+    @NotBlank(message = "Categoria é obrigatória")
+    private String categoria;
 
     private String descricao;
+
+    private String tipoPropulsao;
+
+    private Integer vidaUtilAnos;
 }

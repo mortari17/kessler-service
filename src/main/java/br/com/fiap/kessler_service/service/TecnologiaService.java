@@ -18,6 +18,8 @@ public class TecnologiaService {
     private final TecnologiaRepository repository;
     private final ModelMapper modelMapper;
 
+    private static final String ENTITY_NOT_FOUND_MSG = "Tecnologia não encontrada com id: %d";
+
     public List<TecnologiaResponseDto> findAll() {
         return repository.findAll().stream()
                 .map(this::toResponseDto)
@@ -26,7 +28,7 @@ public class TecnologiaService {
 
     public TecnologiaResponseDto findById(Long id) {
         Tecnologia entity = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Tecnologia not found with id: " + id));
+                .orElseThrow(() -> new RuntimeException(String.format(ENTITY_NOT_FOUND_MSG, id)));
         return toResponseDto(entity);
     }
 
@@ -38,7 +40,7 @@ public class TecnologiaService {
 
     public TecnologiaResponseDto update(Long id, TecnologiaRequestDto requestDto) {
         Tecnologia entity = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Tecnologia not found with id: " + id));
+                .orElseThrow(() -> new RuntimeException(String.format(ENTITY_NOT_FOUND_MSG, id)));
         modelMapper.map(requestDto, entity);
         entity = repository.save(entity);
         return toResponseDto(entity);
@@ -46,7 +48,7 @@ public class TecnologiaService {
 
     public void delete(Long id) {
         if (!repository.existsById(id)) {
-            throw new RuntimeException("Tecnologia not found with id: " + id);
+            throw new RuntimeException(String.format(ENTITY_NOT_FOUND_MSG, id));
         }
         repository.deleteById(id);
     }

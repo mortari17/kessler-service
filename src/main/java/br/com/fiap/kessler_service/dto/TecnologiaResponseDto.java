@@ -11,7 +11,10 @@ import lombok.Setter;
 @AllArgsConstructor
 public class TecnologiaResponseDto {
 
-    private Long id;
-    private String nome;
+    private Long idTecnologia;
+    private String nomeTecnologia;
+    private String categoria;
     private String descricao;
+    private String tipoPropulsao;
+    private Integer vidaUtilAnos;
 }
