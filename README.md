@@ -1,10 +1,10 @@
-# Kessler Service API
+# Kessler API
 
-## Global Solution - Microservice and Web Engineering & IT Services
+## Global Solution 2026.1 — FIAP
 
-API REST desenvolvida em Java com Spring Boot para gerenciamento de tecnologias espaciais, missões, detritos orbitais e créditos orbitais.
+API REST desenvolvida em Java com Spring Boot para gerenciamento de missões espaciais, tecnologias espaciais, detritos orbitais e créditos orbitais.
 
-O projeto foi desenvolvido com base no tema da Global Solution, abordando o problema da Síndrome de Kessler e o monitoramento de objetos espaciais em órbita terrestre.
+O projeto foi criado no contexto da Global Solution 2026.1, cujo tema é **Indústria Espacial**, propondo soluções tecnológicas para sustentabilidade orbital e mitigação de lixo espacial.
 
 ---
 
@@ -12,28 +12,10 @@ O projeto foi desenvolvido com base no tema da Global Solution, abordando o prob
 
 * Java 21
 * Spring Boot
-* Spring Data JPA
 * MySQL
 * Docker
-* Docker Compose
 * Swagger / OpenAPI
 * Maven
-
----
-
-# Estrutura do Projeto
-
-```txt
-src/main/java/br/com/fiap/kessler_service
-├── controller
-├── service
-├── repository
-├── entity
-├── dto
-├── mapper
-├── config
-└── exception
-```
 
 ---
 
@@ -47,19 +29,7 @@ git clone <URL_DO_REPOSITORIO>
 
 ---
 
-## 2. Entrar na pasta do projeto
-
-```bash
-cd kessler-service
-```
-
----
-
-# Como Subir o Banco de Dados MySQL
-
-O banco de dados é executado utilizando Docker.
-
-## Executar o MySQL com Docker
+## 2. Subir o banco MySQL com Docker
 
 Na raiz do projeto execute:
 
@@ -67,17 +37,15 @@ Na raiz do projeto execute:
 docker-compose up -d
 ```
 
-Esse comando utilizará o arquivo:
+O banco será criado utilizando o arquivo:
 
 ```txt
 docker-compose.yml
 ```
 
-para criar e iniciar o container do MySQL.
-
 ---
 
-# Credenciais do Banco de Dados
+# Credenciais do Banco
 
 ```properties
 DATABASE=kessler_db
@@ -88,9 +56,9 @@ PORT=3306
 
 ---
 
-# Como Rodar a Aplicação Spring Boot
+# 3. Rodar a aplicação Spring Boot
 
-Após subir o MySQL, execute a aplicação com o comando:
+Execute o comando:
 
 ```bash
 mvn spring-boot:run
@@ -104,21 +72,19 @@ A aplicação iniciará na porta:
 
 ---
 
-# Swagger / Documentação da API
+# Swagger / Documentação
 
-Após iniciar a aplicação, acessar:
+A documentação da API estará disponível em:
 
 ```txt
 http://localhost:9000/
 ```
 
-A documentação Swagger/OpenAPI ficará disponível nessa URL.
-
 ---
 
 # Versionamento da API
 
-Todos os endpoints utilizam versionamento:
+Todos os endpoints utilizam:
 
 ```txt
 /api/v2
@@ -132,83 +98,14 @@ GET /api/v2/missoes
 
 ---
 
-# Entidades da Aplicação
+# Como Testar a API
 
-A API possui 4 entidades principais:
+1. Execute o MySQL com Docker
+2. Rode a aplicação Spring Boot
+3. Acesse o Swagger
+4. Teste os endpoints CRUD das entidades:
 
-* Tecnologia
-* Missao
-* DetritoOrbital
-* CreditoOrbital
-
----
-
-# Relacionamentos
-
-## Tecnologia → Missão
-
-Uma tecnologia pode estar relacionada a várias missões.
-
----
-
-## Missão → Detrito Orbital
-
-Uma missão pode possuir vários detritos orbitais.
-
----
-
-## Detrito Orbital → Crédito Orbital
-
-Um detrito orbital pode possuir vários créditos orbitais.
-
----
-
-# Como Testar a API do Zero
-
-## Passo 1 - Subir o MySQL
-
-```bash
-docker-compose up -d
-```
-
----
-
-## Passo 2 - Rodar a aplicação Spring Boot
-
-```bash
-mvn spring-boot:run
-```
-
----
-
-## Passo 3 - Abrir o Swagger
-
-Acessar:
-
-```txt
-http://localhost:9000/
-```
-
----
-
-## Passo 4 - Testar os endpoints
-
-Utilizar o Swagger para:
-
-* Criar tecnologias
-* Criar missões
-* Criar detritos orbitais
-* Criar créditos orbitais
-* Consultar registros
-* Atualizar registros
-* Remover registros
-
----
-
-# Observações
-
-* O projeto utiliza arquitetura em camadas.
-* A aplicação utiliza DTOs para entrada e saída de dados.
-* O banco de dados é criado automaticamente pelo Hibernate.
-* Os relacionamentos utilizam chaves estrangeiras no MySQL.
-* A API segue o padrão REST.
+   * Tecnologias
+   * Missões
+   * Detritos Orbitais
+   * Créditos Orbitais
