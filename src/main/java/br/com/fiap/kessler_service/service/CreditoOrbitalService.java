@@ -5,6 +5,7 @@ import br.com.fiap.kessler_service.dto.CreditoOrbitalResponseDto;
 import br.com.fiap.kessler_service.entity.CreditoOrbital;
 import br.com.fiap.kessler_service.entity.DetritoOrbital;
 import br.com.fiap.kessler_service.exception.ResourceNotFoundException;
+import br.com.fiap.kessler_service.mapper.CreditoOrbitalMapper;
 import br.com.fiap.kessler_service.repository.CreditoOrbitalRepository;
 import br.com.fiap.kessler_service.repository.DetritoOrbitalRepository;
 import org.modelmapper.ModelMapper;
@@ -37,14 +38,10 @@ public class CreditoOrbitalService {
                 .orElseThrow(() -> new ResourceNotFoundException(
                         String.format(DETRITO_NOT_FOUND_MSG, requestDto.getIdDetrito())));
 
-        CreditoOrbital credito = new CreditoOrbital();
-
-        credito.setValorBrl(requestDto.getValorBrl());
-        credito.setTipoComprador(requestDto.getTipoComprador());
-        credito.setDataTransacao(requestDto.getDataTransacao());
-        credito.setStatusCredito(requestDto.getStatusCredito());
-
-        credito.setDetrito(detrito);
+        CreditoOrbital credito = CreditoOrbitalMapper.fromDto(
+                requestDto,
+                detrito
+        );
 
         CreditoOrbital savedCredito = creditoOrbitalRepository.save(credito);
 
@@ -75,11 +72,11 @@ public class CreditoOrbitalService {
                 .orElseThrow(() -> new ResourceNotFoundException(
                         String.format(DETRITO_NOT_FOUND_MSG, requestDto.getIdDetrito())));
 
-        credito.setValorBrl(requestDto.getValorBrl());
-        credito.setTipoComprador(requestDto.getTipoComprador());
-        credito.setDataTransacao(requestDto.getDataTransacao());
-        credito.setStatusCredito(requestDto.getStatusCredito());
-        credito.setDetrito(detrito);
+        CreditoOrbitalMapper.updateFromDto(
+        requestDto,
+        credito,
+        detrito
+);
 
         CreditoOrbital updated = creditoOrbitalRepository.save(credito);
 

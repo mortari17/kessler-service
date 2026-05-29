@@ -3,6 +3,7 @@ package br.com.fiap.kessler_service.service;
 import br.com.fiap.kessler_service.dto.MissaoRequestDto;
 import br.com.fiap.kessler_service.dto.MissaoResponseDto;
 import br.com.fiap.kessler_service.exception.ResourceNotFoundException;
+import br.com.fiap.kessler_service.mapper.MissaoMapper;
 import br.com.fiap.kessler_service.entity.Missao;
 import br.com.fiap.kessler_service.entity.Tecnologia;
 import br.com.fiap.kessler_service.repository.MissaoRepository;
@@ -45,7 +46,10 @@ public class MissaoService {
                                 requestDto.getIdTecnologia()
                         )));
 
-        Missao missao = Missao.fromDto(requestDto, tecnologia);
+        Missao missao = MissaoMapper.fromDto(
+                requestDto,
+                tecnologia
+        );
 
         Missao saved = missaoRepository.save(missao);
 
@@ -75,15 +79,15 @@ public class MissaoService {
                 .orElseThrow(() -> new ResourceNotFoundException(
                         String.format(TECNOLOGIA_NOT_FOUND_MSG, requestDto.getIdTecnologia())));
 
-        missao.setNomeMissao(requestDto.getNomeMissao());
-        missao.setAgenciaResponsavel(requestDto.getAgenciaResponsavel());
-        missao.setPaisOrigem(requestDto.getPaisOrigem());
-        missao.setAnoLancamento(requestDto.getAnoLancamento());
-        missao.setStatusMissao(requestDto.getStatusMissao());
-        missao.setTecnologia(tecnologia);
+        MissaoMapper.updateFromDto(
+        requestDto,
+        missao,
+        tecnologia
+);
 
-        missao = missaoRepository.save(missao);
-        return modelMapper.map(missao, MissaoResponseDto.class);
+    Missao updated = missaoRepository.save(missao);
+
+    return modelMapper.map(updated, MissaoResponseDto.class);
     }
 
     @Transactional

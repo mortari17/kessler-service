@@ -5,6 +5,7 @@ import br.com.fiap.kessler_service.dto.DetritoOrbitalResponseDto;
 import br.com.fiap.kessler_service.entity.DetritoOrbital;
 import br.com.fiap.kessler_service.entity.Missao;
 import br.com.fiap.kessler_service.exception.ResourceNotFoundException;
+import br.com.fiap.kessler_service.mapper.DetritoOrbitalMapper;
 import br.com.fiap.kessler_service.repository.DetritoOrbitalRepository;
 import br.com.fiap.kessler_service.repository.MissaoRepository;
 import org.modelmapper.ModelMapper;
@@ -50,17 +51,10 @@ public class DetritoOrbitalService {
                 .orElseThrow(() -> new ResourceNotFoundException(
                         String.format(MISSAO_NOT_FOUND_MSG, requestDto.getIdMissao())));
 
-        DetritoOrbital detrito = new DetritoOrbital();
-
-        detrito.setTipoDetrito(requestDto.getTipoDetrito());
-        detrito.setMassaKg(requestDto.getMassaKg());
-        detrito.setAltitudeAtualKm(requestDto.getAltitudeAtualKm());
-        detrito.setInclinacaoOrbitalGraus(requestDto.getInclinacaoOrbitalGraus());
-        detrito.setRiscoConjuncao(requestDto.getRiscoConjuncao());
-        detrito.setCustoRemocaoEstimadoBrl(requestDto.getCustoRemocaoEstimadoBrl());
-        detrito.setStatusRemocao(requestDto.getStatusRemocao());
-
-        detrito.setMissaoOrigem(missao);
+        DetritoOrbital detrito = DetritoOrbitalMapper.fromDto(
+                requestDto,
+                missao
+        );
 
         DetritoOrbital saved = detritoOrbitalRepository.save(detrito);
 
@@ -77,14 +71,11 @@ public class DetritoOrbitalService {
                 .orElseThrow(() -> new ResourceNotFoundException(
                         String.format(MISSAO_NOT_FOUND_MSG, requestDto.getIdMissao())));
 
-        detrito.setTipoDetrito(requestDto.getTipoDetrito());
-        detrito.setMassaKg(requestDto.getMassaKg());
-        detrito.setAltitudeAtualKm(requestDto.getAltitudeAtualKm());
-        detrito.setInclinacaoOrbitalGraus(requestDto.getInclinacaoOrbitalGraus());
-        detrito.setRiscoConjuncao(requestDto.getRiscoConjuncao());
-        detrito.setCustoRemocaoEstimadoBrl(requestDto.getCustoRemocaoEstimadoBrl());
-        detrito.setStatusRemocao(requestDto.getStatusRemocao());
-        detrito.setMissaoOrigem(missao);
+        DetritoOrbitalMapper.updateFromDto(
+        requestDto,
+        detrito,
+        missao
+);
 
         DetritoOrbital updated = detritoOrbitalRepository.save(detrito);
         return modelMapper.map(updated, DetritoOrbitalResponseDto.class);

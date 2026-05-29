@@ -1,6 +1,5 @@
 package br.com.fiap.kessler_service.entity;
 
-import br.com.fiap.kessler_service.dto.MissaoRequestDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -38,21 +37,4 @@ public class Missao {
     @ManyToOne
     @JoinColumn(name = "id_tecnologia")
     private Tecnologia tecnologia;
-
-    public static Missao fromDto(
-            MissaoRequestDto dto,
-            Tecnologia tecnologia
-    ) {
-        Missao missao = new Missao();
-
-        missao.setNomeMissao(dto.getNomeMissao());
-        missao.setAgenciaResponsavel(dto.getAgenciaResponsavel());
-        missao.setPaisOrigem(dto.getPaisOrigem());
-        missao.setAnoLancamento(dto.getAnoLancamento());
-        missao.setStatusMissao(dto.getStatusMissao());
-
-        missao.setTecnologia(tecnologia);
-
-        return missao;
-    }
 }
