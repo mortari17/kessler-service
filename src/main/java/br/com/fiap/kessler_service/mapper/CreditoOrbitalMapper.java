@@ -1,8 +1,8 @@
 package br.com.fiap.kessler_service.mapper;
 
 import br.com.fiap.kessler_service.dto.CreditoOrbitalRequestDto;
-import br.com.fiap.kessler_service.entity.CreditoOrbital;
-import br.com.fiap.kessler_service.entity.DetritoOrbital;
+import br.com.fiap.kessler_service.model.CreditoOrbital;
+import br.com.fiap.kessler_service.model.DetritoOrbital;
 
 public class CreditoOrbitalMapper {
     public static CreditoOrbital fromDto(

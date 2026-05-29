@@ -2,10 +2,10 @@ package br.com.fiap.kessler_service.service;
 
 import br.com.fiap.kessler_service.dto.DetritoOrbitalRequestDto;
 import br.com.fiap.kessler_service.dto.DetritoOrbitalResponseDto;
-import br.com.fiap.kessler_service.entity.DetritoOrbital;
-import br.com.fiap.kessler_service.entity.Missao;
 import br.com.fiap.kessler_service.exception.ResourceNotFoundException;
 import br.com.fiap.kessler_service.mapper.DetritoOrbitalMapper;
+import br.com.fiap.kessler_service.model.DetritoOrbital;
+import br.com.fiap.kessler_service.model.Missao;
 import br.com.fiap.kessler_service.repository.DetritoOrbitalRepository;
 import br.com.fiap.kessler_service.repository.MissaoRepository;
 import org.modelmapper.ModelMapper;

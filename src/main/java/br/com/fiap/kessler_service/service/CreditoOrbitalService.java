@@ -2,10 +2,10 @@ package br.com.fiap.kessler_service.service;
 
 import br.com.fiap.kessler_service.dto.CreditoOrbitalRequestDto;
 import br.com.fiap.kessler_service.dto.CreditoOrbitalResponseDto;
-import br.com.fiap.kessler_service.entity.CreditoOrbital;
-import br.com.fiap.kessler_service.entity.DetritoOrbital;
 import br.com.fiap.kessler_service.exception.ResourceNotFoundException;
 import br.com.fiap.kessler_service.mapper.CreditoOrbitalMapper;
+import br.com.fiap.kessler_service.model.CreditoOrbital;
+import br.com.fiap.kessler_service.model.DetritoOrbital;
 import br.com.fiap.kessler_service.repository.CreditoOrbitalRepository;
 import br.com.fiap.kessler_service.repository.DetritoOrbitalRepository;
 import org.modelmapper.ModelMapper;

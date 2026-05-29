@@ -1,8 +1,8 @@
 package br.com.fiap.kessler_service.mapper;
 
 import br.com.fiap.kessler_service.dto.DetritoOrbitalRequestDto;
-import br.com.fiap.kessler_service.entity.DetritoOrbital;
-import br.com.fiap.kessler_service.entity.Missao;
+import br.com.fiap.kessler_service.model.DetritoOrbital;
+import br.com.fiap.kessler_service.model.Missao;
 
 public class DetritoOrbitalMapper {
     public static DetritoOrbital fromDto(

@@ -2,7 +2,7 @@ package br.com.fiap.kessler_service.service;
 
 import br.com.fiap.kessler_service.dto.TecnologiaRequestDto;
 import br.com.fiap.kessler_service.dto.TecnologiaResponseDto;
-import br.com.fiap.kessler_service.entity.Tecnologia;
+import br.com.fiap.kessler_service.model.Tecnologia;
 import br.com.fiap.kessler_service.repository.TecnologiaRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;

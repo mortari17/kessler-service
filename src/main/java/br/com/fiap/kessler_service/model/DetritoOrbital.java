@@ -1,4 +1,4 @@
-package br.com.fiap.kessler_service.entity;
+package br.com.fiap.kessler_service.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

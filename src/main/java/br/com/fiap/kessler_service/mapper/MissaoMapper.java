@@ -1,8 +1,8 @@
 package br.com.fiap.kessler_service.mapper;
 
 import br.com.fiap.kessler_service.dto.MissaoRequestDto;
-import br.com.fiap.kessler_service.entity.Tecnologia;
-import br.com.fiap.kessler_service.entity.Missao;
+import br.com.fiap.kessler_service.model.Missao;
+import br.com.fiap.kessler_service.model.Tecnologia;
 
 public class MissaoMapper {
     public static Missao fromDto(
